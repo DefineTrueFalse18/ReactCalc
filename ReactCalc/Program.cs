@@ -15,6 +15,10 @@ namespace ReactCalc
                 Console.WriteLine("Hello, i'm ReactCalc");
                 Console.WriteLine("Choose action: 1-Sum, 2-Div, 3-Square root, 4-Difference, Another key-EXIT");
                 var choose = Console.ReadLine();
+                if(choose != "1" && choose != "2" && choose != "3" && choose != "4")
+                {
+                    Environment.Exit(0);
+                }
 
                 var calc = new Calc();
 
@@ -97,7 +101,6 @@ namespace ReactCalc
                         break;
 
                     default:
-                        Environment.Exit(0);
                         break;
                 }
 
