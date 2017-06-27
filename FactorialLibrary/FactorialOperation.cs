@@ -11,12 +11,12 @@ namespace FactorialLibrary
     {
         public override long Code
         {
-            get { return 1000; }
+            get { return 7; }
         }
 
         public override string Name
         {
-            get { return "factorial"; }
+            get { return "Factorial"; }
         }
 
         public override double Execute(double[] args)

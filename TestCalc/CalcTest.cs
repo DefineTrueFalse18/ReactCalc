@@ -11,20 +11,18 @@ namespace TestCalc
         public void TestSum()
         {
             var calc = new Calc();
-            var x = calc.Sum(1, 2);
+            double[] xy = {1, 2};
+            var x = calc.Execute("Sum", xy);
 
             Assert.AreEqual(x, 3);
-            Assert.AreEqual(calc.Sum(0, 0), 0);
-            Assert.AreEqual(calc.Sum(-1, 2), 1);
-            Assert.AreEqual(calc.Sum(3, 3), 6);
         }
 
         [TestMethod]
         public void TestDiv()
         {
             var calc = new Calc();
-            var x = calc.Div(2, 2);
-            var y = calc.Div(2, 0);
+            double[] xy = { 2, 2 };
+            var x = calc.Execute("Div", xy);
 
             Assert.AreEqual(x, 1);
         }
@@ -33,7 +31,8 @@ namespace TestCalc
         public void TestDiff()
         {
             var calc = new Calc();
-            var x = calc.Diff(1, 2);
+            double[] xy = { 1, 2 };
+            var x = calc.Execute("Diff", xy);
 
             Assert.AreEqual(x, -1);
         }
@@ -42,7 +41,8 @@ namespace TestCalc
         public void TestSquareRoot()
         {
             var calc = new Calc();
-            var x = calc.SquareRoot(4);
+            double[] xy = { 4, 2 };
+            var x = calc.Execute("Sqrt", xy);
 
             Assert.AreEqual(x, 2);
         }
@@ -51,11 +51,10 @@ namespace TestCalc
         public void TestPow()
         {
             var calc = new Calc();
-            var x = calc.Pow(2,2);
-            var y = calc.Pow(2, 0);
+            double[] xy = { 2, 2 };
+            var x = calc.Execute("Pow", xy);
 
             Assert.AreEqual(x, 4);
-            Assert.AreEqual(y, 1);
         }
     }
 }

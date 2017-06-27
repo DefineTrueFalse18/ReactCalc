@@ -13,12 +13,8 @@ namespace ReactCalc
             while (true)
             {
                 Console.WriteLine("Hello, i'm ReactCalc");
-                Console.WriteLine("Choose action: 1-Sum, 2-Div, 3-Square root, 4-Difference, Another key-EXIT");
+                Console.WriteLine("Choose action: Sum, Diff, Multiply, Div, Sqrt, Pow, Factorial");
                 var choose = Console.ReadLine();
-                if (choose != "1" && choose != "2" && choose != "3" && choose != "4")
-                {
-                    Environment.Exit(0);
-                }
 
                 var calc = new Calc();
 
@@ -40,78 +36,11 @@ namespace ReactCalc
 
                 try
                 {
-                    var ressult = calc.Execute(choose, new[] { x, y });
+                    Console.WriteLine(calc.Execute(choose, new[] { x, y })); //сюда передавать еще 1 параметр( имя функции на русском)
                 }
                 catch (NotSupportedException ex)
                 {
                     Console.WriteLine(ex.Message);
-                }
-
-
-                switch (choose)
-                {
-                    case "1":
-                        var result = calc.Sum(x, y);
-                        Console.WriteLine("Sum = " + result.ToString());
-                        result = 0;
-                        break;
-
-                    case "2":
-                        if (y == 0)
-                        {
-                            Console.WriteLine("Division by zero is impossible!");
-                            break;
-                        }
-                        result = calc.Div(x, y);
-                        Console.WriteLine("Div = " + result.ToString());
-                        result = 0;
-                        break;
-
-                    case "3":
-                        Console.WriteLine("Choose X or Y: 1-X, 2-Y");
-                        string strChoose = Console.ReadLine();
-
-                        while (strChoose != "1" && strChoose != "2")
-                        {
-                            Console.WriteLine("Enter valid variant 1 or 2:");
-                            strChoose = Console.ReadLine();
-                        }
-
-                        if (strChoose == "1")
-                        {
-                            if (x < 0)
-                            {
-                                Console.WriteLine("Square root of a negative number impossible!");
-                                break;
-                            }
-
-                            result = calc.SquareRoot(x);
-                            Console.WriteLine("Square root = " + result.ToString());
-                            result = 0;
-                            break;
-                        }
-                        else
-                        {
-                            if (y < 0)
-                            {
-                                Console.WriteLine("Square root of a negative number impossible!");
-                                break;
-                            }
-
-                            result = calc.SquareRoot(y);
-                            Console.WriteLine("Square root = " + result.ToString());
-                            result = 0;
-                            break;
-                        }
-
-                    case "4":
-                        result = calc.Diff(x, y);
-                        Console.WriteLine("Difference = " + result.ToString());
-                        result = 0;
-                        break;
-
-                    default:
-                        break;
                 }
 
                 Console.WriteLine("Press any key to the next calculations");
@@ -169,7 +98,7 @@ namespace ReactCalc
                 double resCheckInt;
                 if (!double.TryParse(strCheck, out resCheckInt))
                 {
-                    Console.WriteLine("Invalid data, enter an integer!");
+                    Console.WriteLine("Invalid data, enter an integer or double! ERROR in this data ----> " + strCheck );
                     return "Error";
                 }
                 else return "Success";
