@@ -37,7 +37,7 @@ namespace ReactCalc
                 try
                 {                    
                     var result = calc.Execute(choose, new[] { x, y });
-                    Console.WriteLine(String.Format("{0}{1}", calc.NameOperation, result)); //сюда передавать еще 1 параметр( имя функции на русском)
+                    Console.WriteLine(String.Format("{0}{1}", calc.NameOperation, result));
                 }
                 catch (NotSupportedException ex)
                 {
