@@ -15,6 +15,8 @@ namespace ReactCalc
     /// </summary>
     public class Calc
     {
+        public string NameOperation = "";
+
         public Calc()
         {
             Operations = new List<IOperation>();
@@ -23,11 +25,11 @@ namespace ReactCalc
             Operations.Add(new DiffOperation());
             Operations.Add(new MultiplyOperation());
 
-            
-            for (int i = 0; i < 2; i++) 
+
+            for (int i = 0; i < 2; i++)
             {
                 var dllName = Directory.GetCurrentDirectory();
-                if(i == 0)
+                if (i == 0)
                 {
                     dllName += "\\FactorialLibrary.dll";
                 }
@@ -60,7 +62,7 @@ namespace ReactCalc
                         }
                     }
                 }
-            }            
+            }
         }
 
         public IList<IOperation> Operations { get; private set; }
@@ -72,6 +74,40 @@ namespace ReactCalc
 
             if (oper != null)
             {
+                switch (oper.Name)
+                {
+                    case "Sum":
+                        NameOperation = "Сумма = ";
+                        break;
+
+                    case "Diff":
+                        NameOperation = "Разность = ";
+                        break;
+
+                    case "Multiply":
+                        NameOperation = "Произведение = ";
+                        break;
+
+                    case "Div":
+                        NameOperation = "Частное = ";
+                        break;
+
+                    case "Sqrt":
+                        NameOperation = "Квадратный корень = ";
+                        break;
+
+                    case "Pow":
+                        NameOperation = "Возведение в степень = ";
+                        break;
+
+                    case "Factorial":
+                        NameOperation = "Факториал = ";
+                        break;
+
+                    default:
+                        break;
+                }
+
                 //Вычисляем результат
                 var result = oper.Execute(args);
                 //отдаем пользователю
