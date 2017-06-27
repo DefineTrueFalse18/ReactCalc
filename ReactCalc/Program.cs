@@ -12,8 +12,8 @@ namespace ReactCalc
         {
             while (true)
             {
-                Console.WriteLine("Hello, i'm ReactCalc");
-                Console.WriteLine("Choose action: Sum, Diff, Multiply, Div, Sqrt, Pow, Factorial");
+                Console.WriteLine("Hello, i'm ReactCalc!");
+                Console.WriteLine("Enter action: Sum, Diff, Multiply, Div, Sqrt, Pow, Factorial!");
                 var choose = Console.ReadLine();
 
                 var calc = new Calc();
