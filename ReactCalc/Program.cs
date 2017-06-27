@@ -15,7 +15,7 @@ namespace ReactCalc
                 Console.WriteLine("Hello, i'm ReactCalc");
                 Console.WriteLine("Choose action: 1-Sum, 2-Div, 3-Square root, 4-Difference, Another key-EXIT");
                 var choose = Console.ReadLine();
-                if(choose != "1" && choose != "2" && choose != "3" && choose != "4")
+                if (choose != "1" && choose != "2" && choose != "3" && choose != "4")
                 {
                     Environment.Exit(0);
                 }
@@ -37,6 +37,16 @@ namespace ReactCalc
                     x = toDouble(inputStr.Substring(0, inputStr.IndexOf(";")), x);
                     y = toDouble(inputStr.Substring(inputStr.IndexOf(";") + 1, inputStr.Length - (inputStr.IndexOf(";") + 1)), x);
                 }
+
+                try
+                {
+                    var ressult = calc.Execute(choose, new[] { x, y });
+                }
+                catch (NotSupportedException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
 
                 switch (choose)
                 {
