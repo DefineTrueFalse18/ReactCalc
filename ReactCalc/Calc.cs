@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FactorialLibrary;
 using ReactCalc.Models;
 using System.Reflection;
 using System.IO;
@@ -20,42 +19,55 @@ namespace ReactCalc
         {
             Operations = new List<IOperation>();
             Operations.Add(new SumOperation());
+            Operations.Add(new DivOperation());
+            Operations.Add(new DiffOperation());
+            Operations.Add(new MultiplyOperation());
 
-            var dllName = Directory.GetCurrentDirectory() + "\\FactorialLibrary.dll";
-
-            if(!Directory.Exists(dllName))
+            
+            for (int i = 0; i < 2; i++) 
             {
-                return;
-            }
-            //загружаем сборку
-            var assembly = Assembly.LoadFrom(dllName);
-            //получаем все типы/классы из нее
-            var types = assembly.GetTypes();
-            //перебираем типы
-            foreach (var t in types)
-            {
-                var interfs = t.GetInterfaces();
-                //находим тех кто реализует интерфейс ioperation
-                if (interfs.Contains(typeof(IOperation)))
+                var dllName = Directory.GetCurrentDirectory();
+                if(i == 0)
                 {
-                    //создаем экземпляр найденного класса
-                    var instance = Activator.CreateInstance(t) as IOperation;
-                    if (instance != null)
+                    dllName += "\\FactorialLibrary.dll";
+                }
+                else
+                {
+                    dllName += "\\FuncStandartLibrary.dll";
+                }
+
+                if (!File.Exists(dllName))
+                {
+                    return;
+                }
+                //загружаем сборку
+                var assembly = Assembly.LoadFrom(dllName);
+                //получаем все типы/классы из нее
+                var types = assembly.GetTypes();
+                //перебираем типы
+                foreach (var t in types)
+                {
+                    var interfs = t.GetInterfaces();
+                    //находим тех кто реализует интерфейс ioperation
+                    if (interfs.Contains(typeof(IOperation)))
                     {
-                        //добавляем его в наш список операций
-                        Operations.Add(instance);
+                        //создаем экземпляр найденного класса
+                        var instance = Activator.CreateInstance(t) as IOperation;
+                        if (instance != null)
+                        {
+                            //добавляем его в наш список операций
+                            Operations.Add(instance);
+                        }
                     }
                 }
-            }
-
-            //Operations.Add(new FactorialOperation());
+            }            
         }
 
         public IList<IOperation> Operations { get; private set; }
 
         private double Execute(Func<IOperation, bool> selector, double[] args)
         {
-            //Находим операция по имени
+            //Находим операцию по имени
             IOperation oper = Operations.FirstOrDefault(selector);
 
             if (oper != null)
@@ -79,18 +91,6 @@ namespace ReactCalc
             return Execute(i => i.Code == code, args);
         }
 
-        public double Execute(Func<double[], double> fun, double[] args)
-        {
-            return fun(args);
-        }
-
-
-
-
-
-
-
-
         /// <summary>
         /// Сумма
         /// </summary>
@@ -99,7 +99,7 @@ namespace ReactCalc
         /// <returns>Целое число</returns>
         public double Sum(double x, double y)
         {
-            return Execute("sum", new[] { x, y }); ;
+            return Execute("Sum", new[] { x, y });
         }
 
         /// <summary>
@@ -110,17 +110,7 @@ namespace ReactCalc
         /// <returns>Частное</returns>
         public double Div(double x, double y)
         {
-            return x / y;
-        }
-
-        /// <summary>
-        /// Квадратный корень
-        /// </summary>
-        /// <param name="x">число</param>
-        /// <returns></returns>
-        public double SquareRoot(double x)
-        {
-            return Math.Sqrt(x);
+            return Execute("Div", new[] { x, y });
         }
 
         /// <summary>
@@ -131,12 +121,18 @@ namespace ReactCalc
         /// <returns>Разность</returns>
         public double Diff(double x, double y)
         {
-            return x - y;
+            return Execute("Diff", new[] { x, y });
         }
 
-        public double Pow(double x, double y)
+        /// <summary>
+        /// Умножение
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public double Multiply(double x, double y)
         {
-            return Math.Pow(x,y);
+            return Execute("Multiply", new[] { x, y });
         }
     }
 }
