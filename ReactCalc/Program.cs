@@ -12,8 +12,8 @@ namespace ReactCalc
         {
             while (true)
             {
-                Console.WriteLine("Hello, i'm ReactCalc");
-                Console.WriteLine("Choose action: Sum, Diff, Multiply, Div, Sqrt, Pow, Factorial");
+                Console.WriteLine("Hello, i'm ReactCalc!");
+                Console.WriteLine("Enter action: Sum, Diff, Multiply, Div, Sqrt, Pow, Factorial!");
                 var choose = Console.ReadLine();
 
                 var calc = new Calc();
@@ -37,7 +37,7 @@ namespace ReactCalc
                 try
                 {                    
                     var result = calc.Execute(choose, new[] { x, y });
-                    Console.WriteLine(String.Format("{0}{1}", calc.NameOperation, result)); //сюда передавать еще 1 параметр( имя функции на русском)
+                    Console.WriteLine(String.Format("{0}{1}", calc.NameOperation, result));
                 }
                 catch (NotSupportedException ex)
                 {
