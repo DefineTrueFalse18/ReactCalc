@@ -7,19 +7,19 @@ using ReactCalc.Models;
 
 namespace FactorialLibrary
 {
-    public class FactorialOperation : Operation
+    public class FactorialOperation : IOperation
     {
-        public override long Code
+        public long Code
         {
             get { return 7; }
         }
 
-        public override string Name
+        public string Name
         {
             get { return "Factorial"; }
         }
 
-        public override double Execute(double[] args)
+        public double Execute(double[] args)
         {
             var x = args[0];
             var count = 1d;

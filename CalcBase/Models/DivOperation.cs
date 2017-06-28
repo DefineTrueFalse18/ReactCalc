@@ -27,5 +27,20 @@ namespace ReactCalc.Models
             }
             return res;
         }
+
+        public override string DisplayName
+        {
+            get { return "Частное"; }
+        }
+
+        public override string Description
+        {
+            get { return "Деле́ние (операция деления) — действие, обратное умножению. Деление обозначается двоеточием , обелюсом , косой чертой или горизонтальной чертой. Подобно тому, как умножение заменяет неоднократно повторенное сложение, деление заменяет неоднократно повторенное вычитание."; }
+        }
+
+        public override string Difficulty
+        {
+            get { return "Not"; }
+        }
     }
 }

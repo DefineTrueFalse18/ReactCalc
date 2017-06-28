@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ReactCalc.Models;
 using System.Reflection;
 using System.IO;
+using ReactCalc.Models;
 
 
 namespace ReactCalc
@@ -15,51 +16,55 @@ namespace ReactCalc
     /// </summary>
     public class Calc
     {
-        public string NameOperation = "";
+        public string LastOperationName { get; set; }
 
         public Calc()
         {
             Operations = new List<IOperation>();
-            Operations.Add(new SumOperation());
-            Operations.Add(new DivOperation());
-            Operations.Add(new DiffOperation());
-            Operations.Add(new MultiplyOperation());
+            
+            //добавляем базовые операции
+			//(+,-,/,*)
+            GetOperations("Basic");
 
-
-            for (int i = 0; i < 2; i++)
+            //добавляем dll-ки
+            //директория с расширениями
+            var extsDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Extensions");
+            //если директория не найдена, то ничего не добавляем
+            if (!Directory.Exists(extsDirectory))
+                return;
+            var exts = Directory.GetFiles(extsDirectory, "*dll");
+            foreach (var dllName in exts)
             {
-                var dllName = Directory.GetCurrentDirectory();
-                if (i == 0)
-                {
-                    dllName += "\\FactorialLibrary.dll";
-                }
-                else
-                {
-                    dllName += "\\FuncStandartLibrary.dll";
-                }
+                GetOperations(dllName);
+            }
+        }
 
-                if (!File.Exists(dllName))
+        private void GetOperations(string dllName)
+        {
+            if (!File.Exists(dllName) && dllName != "Basic")
+            {
+                return;
+            }
+            //загружаем сборку
+            var assembly = dllName != "Basic"
+                ? Assembly.LoadFrom(dllName)
+                : Assembly.GetAssembly(typeof(ReactCalc.Models.IOperation));
+            //получаем все типы/классы из нее
+            var types = assembly.GetTypes();
+            //перебираем типы
+            var searchInterface = typeof(IOperation);
+            foreach (var t in types)
+            {
+                var interfs = t.GetInterfaces();
+                //находим тех кто реализует интерфейс ioperation
+                if (interfs.Contains(searchInterface) && t.Name != "IDisplayOperation" && t.Name != "Operation")
                 {
-                    return;
-                }
-                //загружаем сборку
-                var assembly = Assembly.LoadFrom(dllName);
-                //получаем все типы/классы из нее
-                var types = assembly.GetTypes();
-                //перебираем типы
-                foreach (var t in types)
-                {
-                    var interfs = t.GetInterfaces();
-                    //находим тех кто реализует интерфейс ioperation
-                    if (interfs.Contains(typeof(IOperation)))
+                    //создаем экземпляр найденного класса
+                    var instance = Activator.CreateInstance(t) as IOperation;
+                    if (instance != null)
                     {
-                        //создаем экземпляр найденного класса
-                        var instance = Activator.CreateInstance(t) as IOperation;
-                        if (instance != null)
-                        {
-                            //добавляем его в наш список операций
-                            Operations.Add(instance);
-                        }
+                        //добавляем его в наш список операций
+                        Operations.Add(instance);
                     }
                 }
             }
@@ -74,39 +79,12 @@ namespace ReactCalc
 
             if (oper != null)
             {
-                switch (oper.Name)
-                {
-                    case "Sum":
-                        NameOperation = "Сумма = ";
-                        break;
+                var displayOper = oper as IDisplayOperation;
 
-                    case "Diff":
-                        NameOperation = "Разность = ";
-                        break;
-
-                    case "Multiply":
-                        NameOperation = "Произведение = ";
-                        break;
-
-                    case "Div":
-                        NameOperation = "Частное = ";
-                        break;
-
-                    case "Sqrt":
-                        NameOperation = "Квадратный корень = ";
-                        break;
-
-                    case "Pow":
-                        NameOperation = "Возведение в степень = ";
-                        break;
-
-                    case "Factorial":
-                        NameOperation = "Факториал = ";
-                        break;
-
-                    default:
-                        break;
-                }
+                //displayOper.DisplayName != ""
+                LastOperationName = displayOper != null
+                    ? displayOper.DisplayName
+                    : oper.Name;
 
                 //Вычисляем результат
                 var result = oper.Execute(args);
@@ -125,6 +103,14 @@ namespace ReactCalc
         public double Execute(long code, double[] args)
         {
             return Execute(i => i.Code == code, args);
+        }
+
+        public static double toDouble(string arg)
+        {
+
+            double x = 0;
+            double.TryParse(arg, out x);
+            return x;
         }
 
         /// <summary>

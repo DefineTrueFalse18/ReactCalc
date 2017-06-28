@@ -22,5 +22,20 @@ namespace ReactCalc.Models
         {
             return args.Sum();
         }
+
+        public override string DisplayName
+        {
+            get { return "Сумма"; }
+        }
+
+        public override string Description
+        {
+            get { return "Су́мма (лат. summa — итог, общее количество) в математике это результат операции сложение числовых величин, либо результат последовательного выполнения нескольких операций сложения (суммирования)"; }
+        }
+
+        public override string Difficulty
+        {
+            get { return "Not"; }
+        }
     }
 }

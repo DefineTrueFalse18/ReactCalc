@@ -27,5 +27,20 @@ namespace ReactCalc.Models
             }
             return res;
         }
+
+        public override string DisplayName
+        {
+            get { return "Произведение"; }
+        }
+
+        public override string Description
+        {
+            get { return "Умноже́ние — одно из четырёх основных арифметических действий. Результат умножения называется произведением, а умножаемые числа — множителями или сомножителями."; }
+        }
+
+        public override string Difficulty
+        {
+            get { return "Not"; }
+        }
     }
 }
