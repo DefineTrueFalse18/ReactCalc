@@ -27,5 +27,20 @@ namespace ReactCalc.Models
             }
             return res;
         }
+
+        public override string DisplayName
+        {
+            get { return "Разность"; }
+        }
+
+        public override string Description
+        {
+            get { return "Разность (убавление) — одна из вспомогательных бинарных математических операций (арифметических действий) двух аргументов (уменьшаемого и вычитаемого), результатом которой является новое число (разность), получаемое уменьшением значения первого аргумента на значение второго аргумента."; }
+        }
+
+        public override string Difficulty
+        {
+            get { return "Not"; }
+        }
     }
 }
