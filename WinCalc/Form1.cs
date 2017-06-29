@@ -16,6 +16,25 @@ namespace WinCalc
     {
         private Calc Calc { get; set; }
 
+        private IOperation operation { get; set; }
+
+        private IOperation Operation
+        {
+            get
+            {
+                return operation;
+            }
+            set
+            {
+                operation = value;
+                DispOperation = value as IDisplayOperation;
+            }
+        }
+
+        private IDisplayOperation DispOperation { get; set; }
+
+        private DateTime? LastPressTime { get; set; }
+
         public frmMain()
         {
             InitializeComponent();
@@ -51,8 +70,8 @@ namespace WinCalc
         private void Calculate(object sender)
         {
             //определяем операцию
-            var oper = lbOperation.SelectedItem as IOperation;
-            if (oper == null)
+
+            if (Operation == null)
             {
                 lblResult.Text = "Выберите нормальную операцию";
                 return;
@@ -64,7 +83,7 @@ namespace WinCalc
             try
             {
                 //вычисляем
-                var result = Calc.Execute(oper.Name, new[] { x, y });
+                var result = Calc.Execute(Operation.Name, new[] { x, y });
                 //возвращаем результат
                 lblResult.Text = string.Format(" = {0}{1}", result, Environment.NewLine);
             }
@@ -77,15 +96,15 @@ namespace WinCalc
         private void lbOperation_SelectedIndexChanged(object sender, EventArgs e)
         {
             lblDescription.Text = "";
-            var oper = lbOperation.SelectedItem as IOperation;
-            var displayOper = oper as IDisplayOperation;
+            Operation = lbOperation.SelectedItem as IOperation;
+
             //если операция новая, то добавляем автора и описание
-            if (displayOper != null)
+            if (DispOperation != null)
             {
                 lblDescription.Text = string.Format("Автор: {0}{1}Описание: {2}",
-                    displayOper.Author,
+                    DispOperation.Author,
                     Environment.NewLine,
-                    !string.IsNullOrWhiteSpace(displayOper.Description) ? displayOper.Description : "Нет описания"
+                    !string.IsNullOrWhiteSpace(DispOperation.Description) ? DispOperation.Description : "Нет описания"
                     );
             }
             //если старая операция, то автора ставим дефолтного и в описании пишем "нет описания"
@@ -95,20 +114,20 @@ namespace WinCalc
             //обнуляем результат предыдущего вычисления
             lblResult.Text = "";
             //запускаем проверку на сложность
-            checkDifficulty(sender);
+            checkDifficultyAndCalculate(sender);
         }
 
         private void tbX_TextChanged(object sender, EventArgs e)
         {
-            checkDifficulty(sender);
+            checkDifficultyAndCalculate(sender);
         }
 
         private void tbY_TextChanged(object sender, EventArgs e)
         {
-            checkDifficulty(sender);
+            checkDifficultyAndCalculate(sender);
         }
 
-        private void checkDifficulty(object sender)
+        private void checkDifficultyAndCalculate(object sender)
         {
             IDisplayOperation sad;
 
@@ -119,7 +138,7 @@ namespace WinCalc
             }
             else
             {
-                if(sad.Difficulty.ToString() != "Not")
+                if (sad.Difficulty.ToString() != "Not")
                 {
                     //значит операция новая,но сложная
                     lblResult.Text = "Операция сложная, нажмите ENTER, чтобы вычислить";
@@ -127,7 +146,8 @@ namespace WinCalc
 
                 else
                 {
-                    Calculate(sender);
+                    LastPressTime = DateTime.Now;
+                    timer1.Start();
                 }
             }
         }
@@ -153,7 +173,10 @@ namespace WinCalc
                     if (tbY.Text == "")
                         tbY.Focus();
                     else
-                        Calculate(sender);
+                    {
+                        LastPressTime = DateTime.Now;
+                        timer1.Start();
+                    }
                 }
             }
         }
@@ -166,6 +189,21 @@ namespace WinCalc
         private void tbY_MouseHover(object sender, EventArgs e)
         {
             toolTip1.SetToolTip(tbY, "Вторая переменная, результат несложных функций вычисляется\nпри изменении данного значения, результат сложных функций\nвычисляется при нажатии ENTER.");
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (LastPressTime.HasValue)
+            {
+                var diffTime = DateTime.Now - LastPressTime.Value;
+
+                if (diffTime.TotalMilliseconds >= 250)
+                {
+                    Calculate(sender);
+                    LastPressTime = null;
+                    timer1.Stop();
+                }
+            }
         }
     }
 }
