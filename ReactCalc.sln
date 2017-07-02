@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinCalc", "WinCalc\WinCalc.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCalc", "WebCalc\WebCalc.csproj", "{87DBCA1D-35FF-4E70-9AAE-67D8881A992E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainModels", "DomainModels\DomainModels.csproj", "{31C3DBC7-1168-488C-B87A-252EB8AD8DED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{87DBCA1D-35FF-4E70-9AAE-67D8881A992E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87DBCA1D-35FF-4E70-9AAE-67D8881A992E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87DBCA1D-35FF-4E70-9AAE-67D8881A992E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31C3DBC7-1168-488C-B87A-252EB8AD8DED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31C3DBC7-1168-488C-B87A-252EB8AD8DED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31C3DBC7-1168-488C-B87A-252EB8AD8DED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31C3DBC7-1168-488C-B87A-252EB8AD8DED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

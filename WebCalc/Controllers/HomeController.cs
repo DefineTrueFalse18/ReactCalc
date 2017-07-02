@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DomainModels.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,8 +9,19 @@ namespace WebCalc.Controllers
 {
     public class HomeController : Controller
     {
+        private IUserRepository UserRepository { get; set; }
+
+        public HomeController()
+        {
+            UserRepository = new UserRepository();
+        }
+
         public ActionResult Index()
         {
+            var ur = new UserRepository();
+
+            ViewBag.Users = UserRepository.GetAll();
+
             return View();
         }
 
