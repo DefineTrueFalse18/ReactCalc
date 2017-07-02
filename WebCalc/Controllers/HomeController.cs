@@ -25,6 +25,14 @@ namespace WebCalc.Controllers
             return View();
         }
 
+        
+        public ActionResult About_User(long Id)
+        {
+            ViewBag.Users = UserRepository.GetUserInfo(Id);
+            
+            return View();
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

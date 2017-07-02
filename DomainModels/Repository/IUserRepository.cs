@@ -18,5 +18,7 @@ namespace DomainModels.Repository
         void Delete(User user);
 
         IEnumerable<User> GetAll();
+
+        IEnumerable<User> GetUserInfo(long id_user);
     }
 }
