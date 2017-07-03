@@ -1,18 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DomainModels.Models
 {
+    [Table("OperationResult")]
     public class OperationResult
     {
         public long Id { get; set; }
 
         public Guid Uid { get; set; }
 
-        public User Author { get; set; }
+        public long AuthorId { get; set; }
+
+        public virtual User Author { get; set; }
+
+        public long OperationId { get; set; }
 
         public Operation Operation { get; set; }
 
