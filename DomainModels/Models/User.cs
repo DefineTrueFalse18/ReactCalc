@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DomainModels.Models
 {
@@ -13,26 +11,30 @@ namespace DomainModels.Models
         public User()
         {
             OperationResults = new List<OperationResult>();
-            UserFavoriteResults = new List<UserFavouriteResult>();
+            UserFavouriteResults = new List<UserFavouriteResult>();
         }
 
+        //[Display(Name = "Id")]
+        //[ScaffoldColumn(false)]
+        //[Key]
         public long Id { get; set; }
 
+        [Display(Name = "GUID")]
         public Guid Uid { get; set; }
 
+        [Display(Name = "Логин")]
         public string Login { get; set; }
 
+        [Display(Name = "Пароль")]
         public string Password { get; set; }
 
+        [Display(Name = "ФИО")]
         public string FIO { get; set; }
+        
+        public bool IsDeleted { get; set; }
 
         public virtual ICollection<OperationResult> OperationResults { get; set; }
 
-        public virtual ICollection<UserFavouriteResult> UserFavoriteResults { get; set; }
-
-        public static implicit operator User(string v)
-        {
-            throw new NotImplementedException();
-        }
+        public virtual ICollection<UserFavouriteResult> UserFavouriteResults { get; set; }
     }
 }

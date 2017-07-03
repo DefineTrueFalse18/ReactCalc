@@ -18,6 +18,6 @@ namespace DomainModels.Models
 
         public long ResultId { get; set; }
 
-        public OperationResult Result { get; set; }
+        public virtual OperationResult Result { get; set; }
     }
 }

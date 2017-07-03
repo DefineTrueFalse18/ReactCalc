@@ -1,8 +1,7 @@
-﻿using DomainModels.Repository;
-using System;
+﻿using DomainModels.Models;
+using DomainModels.Repository;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Data.Entity;
 using System.Web.Mvc;
 
 namespace WebCalc.Controllers
@@ -11,10 +10,6 @@ namespace WebCalc.Controllers
     {
         private IUserRepository UserRepository { get; set; }
 
-        private IOperationRepository OperationRepository { get; set; }
-
-        private IOperResultRepository OperResultRepository { get; set; }
-
         public UserController()
         {
             UserRepository = new DomainModels.EntityFramework.UserRepository();
@@ -22,51 +17,60 @@ namespace WebCalc.Controllers
 
         public ActionResult Index()
         {
-            var ur = new UserRepository();
-
             ViewBag.Users = UserRepository.GetAll();
 
             return View();
         }
 
-
         public ActionResult About_User(long Id)
         {
             var user = UserRepository.Get(Id);
 
-            return View(user);
+            //если юзер удален,то открываем о нем подробности, иначе на домашнюю
+            //нужно чтобы если кто-то решит сам прописать адрес, поставить его на место
+            if (user != null)
+            {
+                return View(user);
+            }
+            else
+            {
+                ViewBag.Users = UserRepository.GetAll();
+
+                return View("Index");
+            }
+
         }
 
-        public ActionResult Operations()
+        public ActionResult Create()
         {
-            var ur = new OperationRepository();
-
-            ViewBag.Operation = OperationRepository.GetAll();
-
             return View();
         }
 
-        public ActionResult OperationsResult()
+        [HttpPost]
+        public ActionResult Create(User user)
         {
-            var ur = new OperResultRepository();
+            var usr = UserRepository.Create(user);
+            return RedirectToAction("Index");
+        }
 
-            ViewBag.OperationResult = OperResultRepository.GetAll();
-
+        public ActionResult Update()
+        {
             return View();
         }
 
-        public ActionResult About()
+        [HttpPost]
+        public ActionResult Update(User user)
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            UserRepository.Update(user);
+            return RedirectToAction("Index");
         }
 
-        public ActionResult Contact()
+        public ActionResult Delete(long id)
         {
-            ViewBag.Message = "Your contact page.";
+            var user = UserRepository.Get(id);
+            UserRepository.Delete(user);
 
-            return View();
+            return View("Index");
         }
     }
 }

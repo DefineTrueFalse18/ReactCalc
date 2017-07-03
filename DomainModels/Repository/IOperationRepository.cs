@@ -1,22 +1,8 @@
 ﻿using DomainModels.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DomainModels.Repository
 {
-    public interface IOperationRepository
+    public interface IOperationRepository : IEntityRepository<Operation>
     {
-        Operation Create();
-
-        Operation Get(long id);
-
-        void Update(Operation oper);
-
-        void Delete(Operation oper);
-
-        IEnumerable<Operation> GetAll();
     }
 }

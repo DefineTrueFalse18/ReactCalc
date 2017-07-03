@@ -1,25 +1,66 @@
 ﻿@model DomainModels.Models.User
+
 @{
     ViewBag.Title = "About_User";
 }
 
 <h2>About_User</h2>
 
-<div class="row">
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Uid)
+        </dt>
 
+        <dd>
+            @Html.DisplayFor(model => model.Uid)
+        </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Login)
+        </dt>
 
-    <div class="col-md-4">
-        <p>@Model.FIO</p>
-        <p>@Model.Login</p>
-        <p>@Model.Password</p>
-        <p>@Model.Id</p>
-    </div>
+        <dd>
+            @Html.DisplayFor(model => model.Login)
+        </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
 
-    @foreach (var or in Model.OperationResults)
-    {
-        <li>@or.Result</li>
-    }
+        <dd>
+            @Html.DisplayFor(model => model.Password)
+        </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.FIO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FIO)
+        </dd>
+
+    </dl>
+
+    <ul>
+        History:
+        @foreach (var or in Model.OperationResults)
+        {
+            <li>@or.ExecutionDate @or.InputData @or.Result</li>
+        }
+    </ul>
+
+    <ul>
+        Favourites:
+        @foreach (var or in Model.UserFavouriteResults)
+        {
+            <li>@or.Result.Operation.Name @or.Result.Result</li>
+        }
+    </ul>
 </div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
