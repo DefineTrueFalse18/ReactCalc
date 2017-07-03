@@ -17,5 +17,10 @@ namespace DomainModels.Models
         public string Password { get; set; }
 
         public string FIO { get; set; }
+
+        public static implicit operator User(string v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

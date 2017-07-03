@@ -11,9 +11,17 @@ namespace WebCalc.Controllers
     {
         private IUserRepository UserRepository { get; set; }
 
+        private IOperationRepository OperationRepository { get; set; }
+
+        private IOperResultRepository OperResultRepository { get; set; }
+
         public HomeController()
         {
             UserRepository = new UserRepository();
+
+            OperationRepository = new OperationRepository();
+
+            OperResultRepository = new OperResultRepository();
         }
 
         public ActionResult Index()
@@ -30,6 +38,24 @@ namespace WebCalc.Controllers
         {
             ViewBag.Users = UserRepository.GetUserInfo(Id);
             
+            return View();
+        }
+
+        public ActionResult Operations()
+        {
+            var ur = new OperationRepository();
+
+            ViewBag.Operation = OperationRepository.GetAll();
+
+            return View();
+        }
+
+        public ActionResult OperationsResult()
+        {
+            var ur = new OperResultRepository();
+
+            ViewBag.OperationResult = OperResultRepository.GetAll();
+
             return View();
         }
 

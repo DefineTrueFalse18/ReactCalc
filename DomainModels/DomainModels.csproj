@@ -59,7 +59,11 @@
     <Compile Include="Models\UserFavoriteResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Repository\IOperationRepository.cs" />
+    <Compile Include="Repository\IOperResultRepository.cs" />
     <Compile Include="Repository\IUserRepository.cs" />
+    <Compile Include="Repository\OperationRepository.cs" />
+    <Compile Include="Repository\OperResultRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
