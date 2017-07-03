@@ -154,6 +154,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Home\About_User.cshtml" />
+    <Content Include="Views\Home\Operations.cshtml" />
+    <Content Include="Views\Home\OperationsResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DomainModels\DomainModels.csproj">

@@ -15,5 +15,10 @@ namespace DomainModels.Models
         public string Name { get; set; }
 
         public string FullName { get; set; }
+
+        public static implicit operator Operation(string v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
