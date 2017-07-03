@@ -20,7 +20,7 @@ namespace DomainModels.Models
 
         public long OperationId { get; set; }
 
-        public Operation Operation { get; set; }
+        public virtual Operation Operation { get; set; }
 
         public string InputData { get; set; }
 

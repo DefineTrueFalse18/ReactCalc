@@ -19,10 +19,5 @@ namespace DomainModels.Models
         public string FullName { get; set; }
 
         public virtual ICollection<OperationResult> OperationResults { get; set; }
-
-        public static implicit operator Operation(string v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

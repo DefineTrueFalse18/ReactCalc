@@ -2,9 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DomainModels.Models;
+using System.Data.Entity;
 
 namespace DomainModels.EntityFramework
 {
@@ -12,14 +11,20 @@ namespace DomainModels.EntityFramework
     {
         private CalcContext context { get; set; }
 
+        public UserContext db { get; set; }
+
         public UserRepository()
         {
             this.context = new CalcContext();
+
+            this.db = new UserContext();
         }
 
-        public User Create()
+        public User Create(User user)
         {
-            throw new NotImplementedException();
+            db.Users.Add(user);
+            db.SaveChanges();
+            return user;
         }
 
         public void Delete(User user)
@@ -29,20 +34,34 @@ namespace DomainModels.EntityFramework
 
         public User Get(long id)
         {
-            return context.Users.FirstOrDefault(u=>u.Id == id);
+            return context.Users.FirstOrDefault(u => u.Id == id && u.IsDeleted == false);
         }
 
         public IEnumerable<User> GetAll()
         {
-            return context.Users.ToList();          
-        }
+            var ListUser = context.Users.ToList();
 
-        public IEnumerable<User> GetUserInfo(long id_user)
-        {
-            throw new NotImplementedException();
+            //данный метод удобнее, но он зачистил всю табллицу и он медленнее в 10 раз
+            //ListUser.RemoveAll(x => x.IsDeleted = true);
+
+            for (int i = ListUser.Count - 1; i >= 0; i--)
+            {
+                if (ListUser[i].IsDeleted == true)
+                {
+                    ListUser.Remove(ListUser[i]);
+                }
+            }
+
+            return ListUser;
         }
 
         public void Update(User user)
+        {
+            db.Entry(user).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        public bool Valid(string userName, string password)
         {
             throw new NotImplementedException();
         }
