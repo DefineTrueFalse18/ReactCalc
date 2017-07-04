@@ -34,7 +34,7 @@ namespace DomainModels.EntityFramework
 
         public IEnumerable<Operation> GetAll()
         {
-            return context.Operation.ToList();
+            return context.Operation.ToList();            
         }
 
         public void Update(Operation user)

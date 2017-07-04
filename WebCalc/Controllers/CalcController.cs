@@ -3,6 +3,7 @@ using DomainModels.Models;
 using DomainModels.Repository;
 using ReactCalc;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,19 +17,23 @@ namespace WebCalc.Controllers
     {
         private IOperationResultRepository ORRepository { get; set; }
         private IUserRepository UserRep { get; set; }
+        private IOperationRepository OperRep { get; set; }
 
         private Calc Calc { get; set; }
 
         public CalcController(IOperationResultRepository orrepository, IUserRepository UserRep)
         {
             Calc = new Calc();
+            OperRep = new OperationRepository();
             ORRepository = orrepository;
             this.UserRep = UserRep;
         }
 
         public ActionResult Index()
         {
-            return View();
+            CalcModel model = new CalcModel();
+            ViewBag.Operations = new SelectList(OperRep.GetAll(), "Name", "FullName");
+            return View(model);
         }
 
         [HttpPost]
@@ -70,7 +75,7 @@ namespace WebCalc.Controllers
                     #endregion
                 }
 
-
+                ViewBag.Operations = new SelectList(OperRep.GetAll(), "Name", "FullName");
 
                 return View(model);
             }
