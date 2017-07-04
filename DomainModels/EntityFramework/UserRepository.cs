@@ -29,7 +29,8 @@ namespace DomainModels.EntityFramework
 
         public void Delete(User user)
         {
-            throw new NotImplementedException();
+            user.IsDeleted = true;
+            Update(user);
         }
 
         public User Get(long id)
@@ -63,7 +64,12 @@ namespace DomainModels.EntityFramework
 
         public bool Valid(string userName, string password)
         {
-            throw new NotImplementedException();
+            return context.Users.Count(u => !u.IsDeleted && u.Login == userName && u.Password == password) == 1;
+        }
+
+        public User GetByName(string name)
+        {
+            return context.Users.FirstOrDefault(u => !u.IsDeleted && u.Login == name);
         }
     }
 }
