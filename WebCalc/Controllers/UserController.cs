@@ -6,19 +6,20 @@ using System.Web.Mvc;
 
 namespace WebCalc.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private IUserRepository UserRepository { get; set; }
 
-        public UserController()
+        public UserController(IUserRepository UserRepository)
         {
-            UserRepository = new DomainModels.EntityFramework.UserRepository();
+            this.UserRepository = UserRepository;
         }
 
         public ActionResult Index()
         {
             ViewBag.Users = UserRepository.GetAll();
-
+            
             return View();
         }
 
