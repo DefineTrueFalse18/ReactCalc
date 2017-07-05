@@ -16,36 +16,43 @@ namespace WebCalc.Controllers
     public class CalcController : Controller
     {
         private IOperationResultRepository ORRepository { get; set; }
-        private IUserRepository UserRep { get; set; }
-
-        private IOperationRepository OperRep { get; set; }
+        private IUserRepository UserRepository { get; set; }
+        private IOperationRepository OperationRepository { get; set; }
 
         private Calc Calc { get; set; }
 
-        public CalcController(IOperationResultRepository orrepository, IUserRepository UserRep)
+        public CalcController(IOperationResultRepository ORRepository,
+            IUserRepository UserRepository,
+            IOperationRepository OperationRepository)
         {
             Calc = new Calc();
-            OperRep = new OperationRepository();
-            ORRepository = orrepository;
-            this.UserRep = UserRep;
+            this.ORRepository = ORRepository;
+            this.UserRepository = UserRepository;
+            this.OperationRepository = OperationRepository;
         }
 
         public ActionResult Index()
         {
-            CalcModel model = new CalcModel();
-            ViewBag.Operations = new SelectList(OperRep.GetAll(), "Name", "FullName");
+            var model = new CalcModel();
+            model.OperationList = Calc.Operations
+                .Select(o => new SelectListItem() { Text = $"{o.Name}", Value = $"{o.Name}" });
             return View(model);
         }
 
         [HttpPost]
         public ActionResult Index(CalcModel model)
         {
+            model.OperationList = Calc.Operations
+                .Select(o => new SelectListItem() { Text = $"{o.Name}", Value = $"{o.Name}", Selected = model.Operation == o.Name });
+
             var operation = Calc.Operations.FirstOrDefault(o => o.Name == model.Operation);
 
             if (operation != null)
             {
-                var operId = 1;
-                var inputData = string.Join(",", model.Arguments); ;
+
+                var dbOper = OperationRepository.GetByName(operation.Name);
+                var operId = dbOper.Id;
+                var inputData = string.Join(",", model.Arguments);
 
                 var oldResult = ORRepository.GetOldResult(operId, inputData);
                 if (!double.IsNaN(oldResult))
@@ -57,16 +64,12 @@ namespace WebCalc.Controllers
                     #region вычисление
                     model.Result = operation.Execute(model.Arguments);
 
-                    var rec = ORRepository.Create(null);
+                    var rec = ORRepository.Create();
 
                     //текущего пользователя назначаем автором
-                    var currUser = UserRep.GetByName(User.Identity.Name);
+                    var currUser = UserRepository.GetByName(User.Identity.Name);
                     rec.AuthorId = currUser.Id;
-
-
-                    //хак
-                    rec.OperationId = 1;
-
+                    rec.OperationId = operId;
                     rec.ExecutionDate = DateTime.Now;
                     rec.ExecutionTime = new Random().Next(0, 100);
                     rec.InputData = inputData;
@@ -75,12 +78,8 @@ namespace WebCalc.Controllers
                     ORRepository.Update(rec);
                     #endregion
                 }
-
-                ViewBag.Operations = new SelectList(OperRep.GetAll(), "Name", "FullName");
-
                 return View(model);
             }
-
             return View();
         }
     }

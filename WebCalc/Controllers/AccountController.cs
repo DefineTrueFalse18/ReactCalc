@@ -1,6 +1,4 @@
-﻿using DomainModels.Models;
-using DomainModels.Repository;
-using System.Linq;
+﻿using DomainModels.Repository;
 using System.Web.Mvc;
 using System.Web.Security;
 

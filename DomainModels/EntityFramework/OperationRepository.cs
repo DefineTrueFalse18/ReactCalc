@@ -17,29 +17,41 @@ namespace DomainModels.EntityFramework
             this.context = new CalcContext();
         }
 
-        public Operation Create(Operation oper)
+        public Operation Create()
         {
-            throw new NotImplementedException();
+            return new Operation()
+            {
+                Uid = Guid.NewGuid()
+            };
         }
 
-        public void Delete(Operation user)
+        public void Delete(Operation oper)
         {
-            throw new NotImplementedException();
+            context.Entry(oper).State = System.Data.Entity.EntityState.Deleted;
+            context.SaveChanges();
         }
 
         public Operation Get(long id)
         {
-            return context.Operation.FirstOrDefault(u => u.Id == id);
+            return context.Operations.FirstOrDefault(u => u.Id == id);
         }
 
         public IEnumerable<Operation> GetAll()
         {
-            return context.Operation.ToList();            
+            return context.Operations.ToList();            
         }
 
-        public void Update(Operation user)
+        public void Update(Operation oper)
         {
-            throw new NotImplementedException();
+            context.Entry(oper).State = oper.Id == 0
+                ? System.Data.Entity.EntityState.Added
+                : System.Data.Entity.EntityState.Modified;
+            context.SaveChanges();
+        }
+
+        public Operation GetByName(string name)
+        {
+            return context.Operations.FirstOrDefault(o => o.Name == name);
         }
     }
 }

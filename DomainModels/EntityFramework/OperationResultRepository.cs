@@ -10,16 +10,12 @@ namespace DomainModels.EntityFramework
     {
         private CalcContext context { get; set; }
 
-        public UserContext db { get; set; }
-
         public OperationResultRepository()
         {
             this.context = new CalcContext();
-
-            this.db = new UserContext();
         }
 
-        public OperationResult Create(OperationResult res)
+        public OperationResult Create()
         {
             return new OperationResult()
             {
@@ -35,12 +31,12 @@ namespace DomainModels.EntityFramework
 
         public OperationResult Get(long id)
         {
-            return context.OperationResult.FirstOrDefault(u => u.Id == id);
+            return context.OperationResults.FirstOrDefault(u => u.Id == id);
         }
 
         public IEnumerable<OperationResult> GetAll()
         {
-            return context.OperationResult.ToList();
+            return context.OperationResults.ToList();
         }
 
         public void Update(OperationResult result)
@@ -54,10 +50,20 @@ namespace DomainModels.EntityFramework
 
         public double GetOldResult(long operationId, string inputData)
         {
-            var rec = context.OperationResult.FirstOrDefault(u => u.OperationId == operationId && u.InputData == inputData);
-            return rec != null 
-                ? rec.Result 
+            var rec = context.OperationResults
+                .FirstOrDefault(u => u.OperationId == operationId && u.InputData == inputData);
+            return rec != null
+                ? rec.Result
                 : double.NaN;
+        }
+
+        public IEnumerable<OperationResult> GetByUser(User user)
+        {
+            if (user == null)
+                return new OperationResult[0];
+
+            return context.OperationResults
+                .Where(or => or.AuthorId == user.Id).ToList();
         }
     }
 }
