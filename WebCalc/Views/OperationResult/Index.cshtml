@@ -62,18 +62,18 @@
                 @Html.DisplayFor(modelItem => item.ExecutionDate)
             </td>
             <td>
-                <strong id="likeinfo_@item.Id">@(item.IsLiked ? "Операция сохранена" : "Операция не сохранена")</strong>
+                <strong id="likeinfo_@item.Id">@(item.IsLiked ? "Операция сохранена " : "Операция не сохранена ")</strong>
 
                 <button type="button" class="btn btn-danger" onclick="like(this, @item.Id)">
                     @if (item.IsLiked)
                     {
                         //нажали лайк
-                        @:Dislike <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                        @:Dislike   <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
                     }
                     else
                     {
                         //нажали дизлайк
-                        @:Like <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+                        @:Like   <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
                     }
                 </button>
             </td>
@@ -92,12 +92,12 @@
                 if (msg.Success) {
                     $(elem).html(msg.Name);
                     if (msg.Name == "Like") {
-                        $('#likeinfo_' + id).html("Операция не сохранена");
-                        $(elem).html(msg.Name + "<span class='glyphicon glyphicon-ok-circle'aria-hidden='true'></span> ");
+                        $('#likeinfo_' + id).html("Операция не сохранена ");
+                        $(elem).html(msg.Name + "   <span class='glyphicon glyphicon-ok-circle'aria-hidden='true'></span> ");
                     }
                     else {
-                        $('#likeinfo_' + id).html("Операция сохранена");
-                        $(elem).html(msg.Name + "<span class='glyphicon glyphicon-remove-circle'aria-hidden='true'></span> ");
+                        $('#likeinfo_' + id).html("Операция сохранена ");
+                        $(elem).html(msg.Name + "   <span class='glyphicon glyphicon-remove-circle'aria-hidden='true'></span> ");
                     }
                 } else {
                     alert(msg.Error);
