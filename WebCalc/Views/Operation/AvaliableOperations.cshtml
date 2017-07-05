@@ -2,19 +2,27 @@
     ViewBag.Title = "AvaliableOperations";
 }
 
-<div class="jumbotron">
-    <h1>Операции</h1>
+@* ЖЕСТОКИЙ ХАК *@
+<hr/>
+<hr />
+<div>
+    <ul class="nav nav-tabs">
+        <li class="active">@Html.ActionLink("Операции", "AvaliableOperations", "Operation")</li>
+        <li>@Html.ActionLink("Результаты операций", "Index", "OperationResult")</li>
+        <li>@Html.ActionLink("Любимые операции", "Operations", "User")</li>
+    </ul>
 </div>
+@* ЖЕСТОКИЙ ХАК ЗАКАНЧИВАЕТСЯ *@
 
-<div class="row">
+<table class="table">
 
     @foreach (var operation in ViewBag.Operation as IEnumerable<DomainModels.Models.Operation>)
     {
-        <div class="col-md-4">                   
+        <div class="col-md-4">
             <p>@operation.Name</p>
             <p>@operation.FullName</p>
             <p>@operation.Id</p>
         </div>
     }
 
-</div>
+    </table>

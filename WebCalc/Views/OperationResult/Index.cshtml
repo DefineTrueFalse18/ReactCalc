@@ -17,6 +17,17 @@
 
 <hr />
 
+@* ЖЕСТОКИЙ ХАК *@
+<hr />
+<div>
+    <ul class="nav nav-tabs">
+        <li>@Html.ActionLink("Операции", "AvaliableOperations", "Operation")</li>
+        <li class="active">@Html.ActionLink("Результаты операций", "Index", "OperationResult")</li>
+        <li>@Html.ActionLink("Любимые операции", "Operations", "User")</li>
+    </ul>
+</div>
+@* ЖЕСТОКИЙ ХАК ЗАКАНЧИВАЕТСЯ *@
+
 <table class="table">
     <tr>
         <th>
