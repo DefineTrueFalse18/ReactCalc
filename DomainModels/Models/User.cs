@@ -13,19 +13,13 @@ namespace DomainModels.Models
             OperationResults = new List<OperationResult>();
             UserFavouriteResults = new List<UserFavouriteResult>();
         }
-
-        //[Display(Name = "Id")]
-        //[ScaffoldColumn(false)]
-        //[Key]
+        
         public long Id { get; set; }
-
-        [Display(Name = "GUID")]
+        
         public Guid Uid { get; set; }
-
-        [Display(Name = "Логин")]
+        
         public string Login { get; set; }
-
-        [Display(Name = "Пароль")]
+        
         public string Password { get; set; }
 
         [Display(Name = "ФИО")]

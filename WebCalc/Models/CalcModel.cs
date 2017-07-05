@@ -8,6 +8,11 @@ namespace WebCalc.Models
 {
     public class CalcModel
     {
+        public CalcModel()
+        {
+            OperationList = new List<SelectListItem>();
+        }
+
         public string Operation { get; set; }
 
         public double? X { get; set; }
@@ -21,7 +26,9 @@ namespace WebCalc.Models
             get
             {
                 return new[] { X ?? 0, Y ?? 0 };
-            }            
+            }
         }
+
+        public IEnumerable<SelectListItem> OperationList { get; set; }
     }
 }

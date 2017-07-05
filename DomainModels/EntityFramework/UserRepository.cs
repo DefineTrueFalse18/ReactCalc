@@ -11,31 +11,26 @@ namespace DomainModels.EntityFramework
     {
         private CalcContext context { get; set; }
 
-        public UserContext db { get; set; }
-
         public UserRepository()
         {
             this.context = new CalcContext();
-
-            this.db = new UserContext();
         }
 
-        public User Create(User user)
+        public User Create()
         {
-            db.Users.Add(user);
-            db.SaveChanges();
-            return user;
+            return new User();
         }
 
         public void Delete(User user)
         {
             user.IsDeleted = true;
-            Update(user);
+            context.Entry(user).State = System.Data.Entity.EntityState.Modified;
+            context.SaveChanges();
         }
 
         public User Get(long id)
         {
-            return context.Users.FirstOrDefault(u => u.Id == id && u.IsDeleted == false);
+            return context.Users.FirstOrDefault(u => !u.IsDeleted && u.Id == id);
         }
 
         public IEnumerable<User> GetAll()
@@ -45,8 +40,8 @@ namespace DomainModels.EntityFramework
 
         public void Update(User user)
         {
-            db.Entry(user).State = EntityState.Modified;
-            db.SaveChanges();
+            context.Entry(user).State = System.Data.Entity.EntityState.Modified;
+            context.SaveChanges();
         }
 
         public bool Valid(string userName, string password)

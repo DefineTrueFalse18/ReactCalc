@@ -7,9 +7,9 @@ namespace WebCalc.Controllers
     {
         private IOperationRepository OperationRepository { get; set; }
 
-        public OperationController()
+        public OperationController(IOperationRepository OperationRepository)
         {
-            OperationRepository = new DomainModels.EntityFramework.OperationRepository();
+            this.OperationRepository = OperationRepository;
         }
 
         public ActionResult AvaliableOperations()

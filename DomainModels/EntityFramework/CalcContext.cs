@@ -17,10 +17,10 @@ namespace DomainModels.EntityFramework
 
         public DbSet<User> Users { get; set; }
 
-        public DbSet<Operation> Operation { get; set; }
+        public DbSet<Operation> Operations { get; set; }
 
-        public DbSet<OperationResult> OperationResult { get; set; }
+        public DbSet<OperationResult> OperationResults { get; set; }
 
-        public DbSet<UserFavouriteResult> UserFavoriteResult { get; set; }
+        public DbSet<UserFavouriteResult> UserFavouriteResult { get; set; }
     }
 }

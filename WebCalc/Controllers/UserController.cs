@@ -1,7 +1,5 @@
 ﻿using DomainModels.Models;
 using DomainModels.Repository;
-using System.Collections.Generic;
-using System.Data.Entity;
 using System.Web.Mvc;
 
 namespace WebCalc.Controllers
@@ -19,7 +17,7 @@ namespace WebCalc.Controllers
         public ActionResult Index()
         {
             ViewBag.Users = UserRepository.GetAll();
-            
+
             return View();
         }
 
@@ -42,27 +40,19 @@ namespace WebCalc.Controllers
 
         }
 
-        public ActionResult Create()
+        [HttpGet]
+        public ActionResult Edit(long id)
         {
-            return View();
+            var user = UserRepository.Get(id);
+            return View(user);
         }
 
         [HttpPost]
-        public ActionResult Create(User user)
+        public ActionResult Edit(User user)
         {
-            var usr = UserRepository.Create(user);
-            return RedirectToAction("Index");
-        }
 
-        public ActionResult Update()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Update(User user)
-        {
             UserRepository.Update(user);
+
             return RedirectToAction("Index");
         }
 
