@@ -40,20 +40,7 @@ namespace DomainModels.EntityFramework
 
         public IEnumerable<User> GetAll()
         {
-            var ListUser = context.Users.ToList();
-
-            //данный метод удобнее, но он зачистил всю табллицу и он медленнее в 10 раз
-            //ListUser.RemoveAll(x => x.IsDeleted = true);
-
-            for (int i = ListUser.Count - 1; i >= 0; i--)
-            {
-                if (ListUser[i].IsDeleted == true)
-                {
-                    ListUser.Remove(ListUser[i]);
-                }
-            }
-
-            return ListUser;
+            return context.Users.Where(u => !u.IsDeleted).ToList();
         }
 
         public void Update(User user)
