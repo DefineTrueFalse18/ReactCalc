@@ -119,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\LoadOperation\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CalcController.cs" />
+    <Compile Include="Controllers\LoadOperationsController.cs" />
     <Compile Include="Controllers\OperationController.cs" />
     <Compile Include="Controllers\OperationResultController.cs" />
     <Compile Include="Controllers\UserController.cs" />

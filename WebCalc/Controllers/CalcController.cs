@@ -17,6 +17,7 @@ namespace WebCalc.Controllers
     {
         private IOperationResultRepository ORRepository { get; set; }
         private IUserRepository UserRep { get; set; }
+
         private IOperationRepository OperRep { get; set; }
 
         private Calc Calc { get; set; }
