@@ -45,8 +45,9 @@ namespace WebCalc.Controllers
 
             if (like != null)
             {
+                //Dislike
                 LikeRepository.Delete(like);
-                return Json(new { Success = true, Name = "like" });
+                return Json(new { Success = true, Name = "Like" });
             }
 
             // Создать лайк
@@ -60,7 +61,7 @@ namespace WebCalc.Controllers
             LikeRepository.Update(like);
 
             // Вернуться к списку операций
-            return Json(new { Success = true, Name = "dislike" });
+            return Json(new { Success = true, Name = "Dislike" });
         }
     }
 }

@@ -62,7 +62,20 @@
                 @Html.DisplayFor(modelItem => item.ExecutionDate)
             </td>
             <td>
-                <button type="button" class="btn btn-danger" onclick="like(this, @item.Id)">@(item.IsLiked ? "dislike" : "like")</button>
+                <strong id="likeinfo_@item.Id">@(item.IsLiked ? "Операция сохранена" : "Операция не сохранена")</strong>
+
+                <button type="button" class="btn btn-danger" onclick="like(this, @item.Id)">
+                    @if (item.IsLiked)
+                    {
+                        //нажали лайк
+                        @:Dislike <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                    }
+                    else
+                    {
+                        //нажали дизлайк
+                        @:Like <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+                    }
+                </button>
             </td>
         </tr>
     }
@@ -74,10 +87,18 @@
         $.ajax({
             type: "POST",
             url: "@Url.Action("Like")",
-            data: {"id": id},
+            data: { "id": id },
             success: function (msg) {
-                if(msg.Success){
+                if (msg.Success) {
                     $(elem).html(msg.Name);
+                    if (msg.Name == "Like") {
+                        $('#likeinfo_' + id).html("Операция не сохранена");
+                        $(elem).html(msg.Name + "<span class='glyphicon glyphicon-ok-circle'aria-hidden='true'></span> ");
+                    }
+                    else {
+                        $('#likeinfo_' + id).html("Операция сохранена");
+                        $(elem).html(msg.Name + "<span class='glyphicon glyphicon-remove-circle'aria-hidden='true'></span> ");
+                    }
                 } else {
                     alert(msg.Error);
                 }
