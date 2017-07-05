@@ -33,7 +33,7 @@ namespace DomainModels.EntityFramework
 
         public IEnumerable<UserFavouriteResult> GetAll()
         {
-            return context.UserFavouriteResult.ToList();            
+            return context.UserFavouriteResult.ToList();
         }
 
         public void Update(UserFavouriteResult result)
@@ -42,6 +42,11 @@ namespace DomainModels.EntityFramework
                 ? System.Data.Entity.EntityState.Added
                 : System.Data.Entity.EntityState.Modified;
             context.SaveChanges();
+        }
+
+        public IEnumerable<UserFavouriteResult> GetLikes(long userId)
+        {
+                return context.UserFavouriteResult.ToList().Where(u => u.UserId == userId).ToList();            
         }
     }
 }
