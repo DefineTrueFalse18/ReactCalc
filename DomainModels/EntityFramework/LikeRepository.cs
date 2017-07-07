@@ -46,7 +46,7 @@ namespace DomainModels.EntityFramework
 
         public IEnumerable<UserFavouriteResult> GetLikes(long userId)
         {
-                return context.UserFavouriteResult.ToList().Where(u => u.UserId == userId).ToList();            
+                return context.UserFavouriteResult.ToList().Where(u => u.User.Id == userId).ToList();            
         }
     }
 }

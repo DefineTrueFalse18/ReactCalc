@@ -68,8 +68,8 @@ namespace WebCalc.Controllers
 
                     //текущего пользователя назначаем автором
                     var currUser = UserRepository.GetByName(User.Identity.Name);
-                    rec.AuthorId = currUser.Id;
-                    rec.OperationId = operId;
+                    rec.Author = currUser;
+                    rec.Operation = dbOper;
                     rec.ExecutionDate = DateTime.Now;
                     rec.ExecutionTime = new Random().Next(0, 100);
                     rec.InputData = inputData;

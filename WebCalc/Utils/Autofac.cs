@@ -3,7 +3,7 @@ using Autofac.Core;
 using Autofac.Integration.Mvc;
 using DomainModels.Repository;
 using System.Web.Mvc;
-using EF = DomainModels.EntityFramework;
+using NH = DomainModels.NHibernate;
 
 namespace WebCalc.Utils
 {
@@ -16,12 +16,12 @@ namespace WebCalc.Utils
 
             // регистрируем контроллер в текущей сборке
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
-
+            
             // регистрируем споставление типов
-            builder.RegisterType<EF.UserRepository>().As<IUserRepository>();
-            builder.RegisterType<EF.OperationResultRepository>().As<IOperationResultRepository>();
-            builder.RegisterType<EF.LikeRepository>().As<ILikeRepository>();
-            builder.RegisterType<EF.OperationRepository>().As<IOperationRepository>();
+            builder.RegisterType<NH.UserRepository>().As<IUserRepository>();
+            builder.RegisterType<NH.ORRepository>().As<IOperationResultRepository>();
+            builder.RegisterType<NH.OperationRepository>().As<IOperationRepository>();
+            builder.RegisterType<NH.LikeRepository>().As<ILikeRepository>();
 
             // создаем новый контейнер с теми зависимостями, которые определены выше
             var container = builder.Build();
