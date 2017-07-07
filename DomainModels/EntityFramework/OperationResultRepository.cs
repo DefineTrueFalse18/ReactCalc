@@ -51,7 +51,7 @@ namespace DomainModels.EntityFramework
         public double GetOldResult(long operationId, string inputData)
         {
             var rec = context.OperationResults
-                .FirstOrDefault(u => u.OperationId == operationId && u.InputData == inputData);
+                .FirstOrDefault(u => u.Operation.Id == operationId && u.InputData == inputData);
             return rec != null
                 ? rec.Result
                 : double.NaN;
@@ -63,7 +63,7 @@ namespace DomainModels.EntityFramework
                 return new OperationResult[0];
 
             return context.OperationResults
-                .Where(or => or.AuthorId == user.Id).ToList();
+                .Where(or => or.Author.Id == user.Id).ToList();
         }
     }
 }

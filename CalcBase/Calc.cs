@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using ReactCalc.Models;
 using System.Reflection;
 using System.IO;
-using ReactCalc.Models;
 
 
 namespace ReactCalc

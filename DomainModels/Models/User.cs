@@ -13,19 +13,19 @@ namespace DomainModels.Models
             OperationResults = new List<OperationResult>();
             UserFavouriteResults = new List<UserFavouriteResult>();
         }
-        
-        public long Id { get; set; }
-        
-        public Guid Uid { get; set; }
-        
-        public string Login { get; set; }
-        
-        public string Password { get; set; }
+
+        public virtual long Id { get; set; }
+
+        public virtual Guid Uid { get; set; }
+
+        public virtual string Login { get; set; }
+
+        public virtual string Password { get; set; }
 
         [Display(Name = "ФИО")]
-        public string FIO { get; set; }
-        
-        public bool IsDeleted { get; set; }
+        public virtual string FIO { get; set; }
+
+        public virtual bool IsDeleted { get; set; }
 
         public virtual ICollection<OperationResult> OperationResults { get; set; }
 

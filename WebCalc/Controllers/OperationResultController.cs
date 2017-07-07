@@ -18,7 +18,11 @@ namespace WebCalc.Controllers
 
             var results = ORRepository.GetByUser(curUser);
 
-            var likes = LikeRepository.GetLikes(curUser.Id).Select(it => it.ResultId);
+            // var likes = LikeRepository.GetLikes(curUser.Id).Select(it => it.ResultId);
+
+            var likes = LikeRepository.GetAll()     // получаем все лайки
+                .Where(u => u.User.Id == curUser.Id) // фильтруем по текущему юзеру
+                .Select(it => it.Result.Id);         // достаем из лайков результаты операций  
 
             foreach (var result in results)
             {
@@ -27,10 +31,16 @@ namespace WebCalc.Controllers
             return View(results);
         }
 
+        public ActionResult Favourite()
+        {
+            var curUser = GetCurrentUser();
+            return View(ORRepository.GetByUser(curUser));
+        }
+
         [HttpPost]
         public JsonResult Like(long id)
         {
-            var result = ORRepository.Get(id);
+            var result = ORRepository.Get(id);            
 
             if (result == null)
             {
@@ -39,8 +49,10 @@ namespace WebCalc.Controllers
 
             var curUser = GetCurrentUser();
 
-            var like = LikeRepository.GetLikes(curUser.Id)
-                .FirstOrDefault(it => it.UserId == curUser.Id && it.ResultId == id);
+            //var like = LikeRepository.GetLikes(curUser.Id)
+            //    .FirstOrDefault(it => it.UserId == curUser.Id && it.ResultId == id);
+
+            var like = LikeRepository.GetAll().FirstOrDefault(it => it.User.Id == curUser.Id && it.Result.Id == id);
 
             if (like != null)
             {
@@ -53,8 +65,8 @@ namespace WebCalc.Controllers
             like = LikeRepository.Create();
 
             // Заполнить свойства
-            like.UserId = curUser.Id;
-            like.ResultId = result.Id;
+            like.User = curUser;
+            like.Result = result;
 
             // Сохранить
             LikeRepository.Update(like);

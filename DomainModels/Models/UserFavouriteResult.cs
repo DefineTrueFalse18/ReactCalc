@@ -10,13 +10,14 @@ namespace DomainModels.Models
     [Table("UserFavouriteResult")]
     public class UserFavouriteResult
     {
-        public long Id { get; set; }
+        public virtual long Id { get; set; }
 
-        public long UserId { get; set; }
+        [Obsolete]
+        public virtual long UserId { get; set; }
 
         public virtual User User { get; set; }
-
-        public long ResultId { get; set; }
+        [Obsolete]
+        public virtual long ResultId { get; set; }
 
         public virtual OperationResult Result { get; set; }
     }
